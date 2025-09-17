@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบฟอร์มสอบถามและขออนุมัติ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Sarabun', sans-serif; 
+            background-image: url('https://img5.pic.in.th/file/secure-sv1/-99656d04010176bc1.png');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        input:focus, textarea:focus, select:focus {
+            background-color: #f7fafc; /* bg-gray-50 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white w-full max-w-3xl mx-auto rounded-lg shadow-2xl p-8 my-8">
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-bold text-gray-800">แบบฟอร์มสอบถามและขออนุมัติ</h1>
+            <p class="text-gray-500 mt-2">Compliance Clarification & Approval Request</p>
+        </div>
+
+        <form id="clarificationForm">
+            <div class="space-y-8">
+                <!-- Section 1: User Info -->
+                <section>
+                    <h2 class="text-xl font-semibold text-gray-700 border-b pb-3 mb-6">ส่วนที่ 1: ข้อมูลผู้ยื่นคำร้อง</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="employeeId" class="block text-sm font-medium text-gray-700 mb-1">รหัสพนักงาน (Employee ID)</label>
+                            <input type="text" id="employeeId" name="employeeId" required class="block w-full rounded-md border-gray-300 shadow-sm p-2" placeholder="เช่น 12345">
+                        </div>
+                        <div>
+                            <label for="section" class="block text-sm font-medium text-gray-700 mb-1">แผนก (Section)</label>
+                            <select id="section" name="section" required class="block w-full rounded-md border-gray-300 shadow-sm p-2">
+                                <option value="">-- กรุณาเลือก --</option>
+                                <option>Operation</option> <option>HR</option> <option>ACT&FIN</option> <option>Engineering</option>
+                                <option>IT</option> <option>CAP</option> <option>QSSHE</option> <option>CRM</option>
+                            </select>
+                        </div>
+                        <div>
+                           <label for="requestDate" class="block text-sm font-medium text-gray-700 mb-1">วันที่ยื่นคำร้อง</label>
+                           <input type="date" id="requestDate" name="requestDate" required class="block w-full rounded-md border-gray-300 shadow-sm p-2">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2: Request Details -->
+                <section>
+                    <h2 class="text-xl font-semibold text-gray-700 border-b pb-3 mb-6">ส่วนที่ 2: รายละเอียดคำร้อง</h2>
+                    <div class="space-y-6">
+                        <div>
+                            <label for="subject" class="block text-sm font-medium text-gray-700 mb-1">หัวข้อเรื่อง (Subject)</label>
+                            <input type="text" id="subject" name="subject" required class="block w-full rounded-md border-gray-300 shadow-sm p-2" placeholder="เช่น ขออนุมัติรับของขวัญจากลูกค้า">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ประเภทของคำร้อง</label>
+                            <div class="grid grid-cols-2 gap-4">
+                                <label class="flex items-center p-3 border rounded-md cursor-pointer hover:bg-blue-50"><input type="radio" name="request_type" value="Clarification" required class="h-4 w-4 text-blue-600"><span class="ml-3">สอบถามข้อปฏิบัติ</span></label>
+                                <label class="flex items-center p-3 border rounded-md cursor-pointer hover:bg-blue-50"><input type="radio" name="request_type" value="Approval" class="h-4 w-4 text-blue-600"><span class="ml-3">ขออนุมัติ</span></label>
+                                <label class="flex items-center p-3 border rounded-md cursor-pointer hover:bg-blue-50"><input type="radio" name="request_type" value="COI" class="h-4 w-4 text-blue-600"><span class="ml-3">แจ้งผลประโยชน์ทับซ้อน</span></label>
+                                <label class="flex items-center p-3 border rounded-md cursor-pointer hover:bg-blue-50"><input type="radio" name="request_type" value="Other" class="h-4 w-4 text-blue-600"><span class="ml-3">อื่นๆ</span></label>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="details" class="block text-sm font-medium text-gray-700 mb-1">ข้อเท็จจริงและสถานการณ์ (Details)</label>
+                            <textarea id="details" name="details" rows="4" required class="block w-full rounded-md border-gray-300 shadow-sm p-2" placeholder="กรุณาอธิบายสถานการณ์ เหตุผล และความจำเป็นโดยละเอียด"></textarea>
+                        </div>
+                         <div>
+                            <label for="involvedParties" class="block text-sm font-medium text-gray-700 mb-1">บุคคล/หน่วยงานที่เกี่ยวข้อง (ถ้ามี)</label>
+                            <input type="text" id="involvedParties" name="involvedParties" class="block w-full rounded-md border-gray-300 shadow-sm p-2" placeholder="เช่น ชื่อลูกค้า, ชื่อซัพพลายเออร์">
+                        </div>
+                        <div>
+                            <label for="attachments" class="block text-sm font-medium text-gray-700 mb-1">เอกสารแนบ (ถ้ามี)</label>
+                            <input type="text" id="attachments" name="attachments" placeholder="ระบุชื่อไฟล์ หรือลิงก์เอกสาร" class="block w-full rounded-md border-gray-300 shadow-sm p-2">
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Submission -->
+                <section class="pt-6 border-t">
+                    <div class="flex items-start">
+                        <input id="confirmation" name="confirmation" type="checkbox" required class="h-4 w-4 mt-1 rounded border-gray-300 text-blue-600">
+                        <label for="confirmation" class="ml-3 block text-sm text-gray-900">ข้าพเจ้ารับรองว่าข้อมูลข้างต้นเป็นความจริงและครบถ้วน</label>
+                    </div>
+                    <div class="mt-8 flex justify-between items-center">
+                         <a href="index.html" class="text-blue-600 hover:underline">&larr; ย้อนกลับหน้าหลัก</a>
+                        <button type="submit" class="inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-8 text-sm font-medium text-white shadow-sm hover:bg-blue-700">ยื่นคำร้อง</button>
+                    </div>
+                </section>
+            </div>
+        </form>
+    </div>
+
+    <!-- Modal -->
+    <div id="feedbackModal" class="fixed inset-0 bg-gray-600 bg-opacity-75 hidden items-center justify-center p-4 z-50">
+        <div id="modalContent" class="bg-white p-8 rounded-lg shadow-xl text-center w-full max-w-md">
+            <h3 id="modalTitle" class="text-2xl font-bold mb-4"></h3>
+            <div id="modalBody"></div>
+            <div id="modalActions" class="mt-6 space-y-3">
+                 <button id="downloadProofBtn" class="w-full inline-flex justify-center rounded-md border border-transparent bg-green-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-green-700 hidden">ดาวน์โหลดหลักฐาน</button>
+                <button id="closeModalBtn" class="w-full inline-flex justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50">ตกลง</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('requestDate').valueAsDate = new Date();
+            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZ5FiyFHFssv_nWP6-KhLhRumcdoy4jd3cWy9hljR8ntG-fqGWyk50X4IniGDUj1EI/exec';
+            
+            const form = document.getElementById('clarificationForm');
+            const submitButton = form.querySelector('button[type="submit"]');
+            const modal = document.getElementById('feedbackModal');
+            const modalContent = document.getElementById('modalContent');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const downloadProofBtn = document.getElementById('downloadProofBtn');
+            
+            let submissionSuccess = false;
+
+            form.addEventListener('submit', e => {
+                e.preventDefault();
+                submitButton.disabled = true;
+                submitButton.innerHTML = 'กำลังส่ง...';
+
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+                data.action = 'newSubmission';
+                
+                fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(data) })
+                    .then(res => res.json())
+                    .then(resData => {
+                        if (resData.status === 'success') {
+                            submissionSuccess = true;
+                            modalTitle.textContent = 'ยื่นคำร้องสำเร็จ';
+                            modalTitle.className = "text-2xl font-bold mb-4 text-green-600";
+                            modalBody.innerHTML = `<p class="text-gray-600">โปรดบันทึกเลขที่คำร้องสำหรับใช้ในการติดตามสถานะ</p><p class="mt-4 text-2xl font-bold bg-gray-100 p-3 rounded-lg">${resData.caseId}</p>`;
+                            downloadProofBtn.classList.remove('hidden');
+                        } else {
+                            throw new Error(resData.message || 'Unknown error');
+                        }
+                    })
+                    .catch(err => {
+                        submissionSuccess = false;
+                        modalTitle.textContent = 'เกิดข้อผิดพลาด!';
+                        modalTitle.className = "text-2xl font-bold mb-4 text-red-600";
+                        modalBody.innerHTML = `<p class="text-gray-600">ไม่สามารถส่งคำร้องได้: ${err.message}</p>`;
+                        downloadProofBtn.classList.add('hidden');
+                    })
+                    .finally(() => {
+                        modal.classList.remove('hidden');
+                        modal.classList.add('flex');
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = 'ยื่นคำร้อง';
+                    });
+            });
+            
+            downloadProofBtn.addEventListener('click', () => {
+                html2canvas(modalContent, { scale: 2 }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `proof-of-submission-${modalBody.querySelector('p:last-child').textContent}.png`;
+                    link.href = canvas.toDataURL();
+                    link.click();
+                });
+            });
+            
+            closeModalBtn.addEventListener('click', () => {
+                modal.classList.add('hidden');
+                if (submissionSuccess) {
+                    // Redirect to the main page after successful submission
+                    window.location.href = 'index.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
